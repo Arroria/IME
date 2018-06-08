@@ -31,6 +31,7 @@
     <ClInclude Include="ProcessManager.h">
       <Filter>_main</Filter>
     </ClInclude>
+    <ClInclude Include="IME_Manager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -45,6 +46,7 @@
     <ClCompile Include="ProcessManager.cpp">
       <Filter>_main</Filter>
     </ClCompile>
+    <ClCompile Include="IME_Manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IME.rc">
