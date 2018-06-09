@@ -11,7 +11,6 @@ IME_Manager::~IME_Manager()
 }
 
 
-
 void IME_Manager::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
@@ -43,18 +42,46 @@ void IME_Manager::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			auto len = ImmGetCompositionStringW(hIMC, GCS_RESULTSTR, NULL, 0);
 			ImmGetCompositionStringW(hIMC, GCS_RESULTSTR, input, len);
 			m_inputBuffer += input;
+			m_typingData.clear();
 		}
 		else if (lParam & GCS_COMPSTR)
 		{
 			auto len = ImmGetCompositionStringW(hIMC, GCS_COMPSTR, NULL, 0);
 			ImmGetCompositionStringW(hIMC, GCS_COMPSTR, input, len);
-			m_inputBuffer += input;
+			m_typingData = input;
 		}
 		ImmReleaseContext(hWnd, hIMC);
 
+		
 
-		wcout << m_inputBuffer << endl;
+		wcout << m_inputBuffer + m_typingData << endl;
 		break;
 	}
+	case WM_CHAR:
+
+		wchar_t wP = wParam;
+
+		if (wP == VK_BACK)
+		{
+			size_t size = m_inputBuffer.size();
+			if (size)
+				m_inputBuffer.resize(size - 1);
+		}
+		else if (wP == 0x7F)
+		{
+			size_t removeSize = 0;
+			for (auto iter = m_inputBuffer.rbegin(); iter != m_inputBuffer.rend(); iter++)
+			{
+				removeSize++;
+				if (*iter <= 32)
+					break;
+			}
+			m_inputBuffer.resize(m_inputBuffer.size() - removeSize);
+		}
+		else
+			m_inputBuffer += wP;
+
+		wcout << m_inputBuffer + m_typingData << endl;
+		break;
 	}
 }
