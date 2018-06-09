@@ -44,6 +44,7 @@ bool MainLoop::Render()
 	D3DXCreateFontW(DEVICE, 10, 0, 0, 0, 0, 1, 0, 0, 0, L"", &font);
 	RECT rc;
 	SetRect(&rc, 100, 100, 100, 100);
+	font->DrawTextW(sp, g_imeManager.GetString().data(), -1, &rc, DT_NOCLIP, D3DXCOLOR(0, 0, 0, 1));
 	font->Release();
 
 	sp->End();
