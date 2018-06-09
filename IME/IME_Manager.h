@@ -8,6 +8,7 @@ private:
 
 public:
 	std::wstring GetString();
+	void Clear();
 
 public:
 	void MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

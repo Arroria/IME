@@ -38,12 +38,14 @@ void IME_Manager::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_CHAR:
 	{
 		wchar_t wP = wParam;
+		wcout << L"wC : " << wP << L" ULONG : " << (ULONG)wParam << endl;
 
 		if (wP > 0xff)
 		{
 			wcout << L"WM_CHAR : 2¹ÙÀÌÆ® ÀÔ·Â" << endl << L" - wchar_t : " << wP << endl << L" - ulong : " << (ULONG)wP << endl;
 		}
-		if (wP == VK_BACK)
+
+		if (wP == VK_BACK) // backspace
 		{
 			size_t size = m_inputBuffer.size();
 			if (size)
@@ -63,6 +65,14 @@ void IME_Manager::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			m_inputBuffer.resize(m_inputBuffer.size() - removeSize);
 		}
+		//else if (wP == VK_RETURN)
+		//{
+		//	m_inputBuffer += 0x0a;
+		//	// reserved code
+		//	// ¾ê°¡ °ÂÇàÇØÁÜ
+		//}
+		else if (wP < 32)
+			; // ¤±¤©
 		else
 			m_inputBuffer += wP;
 
@@ -79,8 +89,5 @@ void IME_Manager::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 
 
-std::wstring IME_Manager::GetString()
-{
-	//wcout << m_inputBuffer + m_typingData << endl;
-	return m_inputBuffer + m_typingData;
-}
+std::wstring IME_Manager::GetString()	{ return m_inputBuffer + m_typingData; }
+void IME_Manager::Clear()				{ m_inputBuffer.clear();	m_typingData.clear(); }

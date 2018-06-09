@@ -67,6 +67,11 @@ LRESULT MainLoop::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	switch (msg)
 	{
+	case WM_KEYDOWN:
+		if (wParam == VK_ESCAPE)
+			g_imeManager.Clear();
+		break;
+
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
